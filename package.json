@@ -1,7 +1,11 @@
 {
   "name": "categorize",
-  "displayName": "categorize",
+  "displayName": "Categorize",
   "description": "De-clutter your explorer",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/jnspr/categorize"
+  },
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.95.0"
@@ -9,8 +13,7 @@
   "categories": [
     "Other"
   ],
-  "private": "true",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
@@ -93,6 +96,7 @@
     }
   },
   "scripts": {
+    "vsix": "vsce package",
     "vscode:prepublish": "yarn run package",
     "compile": "yarn run check-types && node esbuild.js",
     "watch": "npm-run-all -p watch:*",
@@ -107,6 +111,7 @@
     "@types/node": "20.x",
     "esbuild": "^0.24.0",
     "npm-run-all": "^4.1.5",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "vsce": "^2.15.0"
   }
 }
