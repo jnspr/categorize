@@ -9,6 +9,8 @@
   "categories": [
     "Other"
   ],
+  "private": "true",
+  "license": "UNLICENSED",
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
