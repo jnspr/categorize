@@ -6,7 +6,7 @@
     "type": "github",
     "url": "https://github.com/jnspr/categorize"
   },
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.95.0"
   },
@@ -66,9 +66,16 @@
                 "default": "My label",
                 "description": "Title of a category"
               },
-              "patterns": {
+              "include": {
                 "type": "array",
-                "description": "An array of `files.exclude` patterns to activate",
+                "description": "Patterns to disable in `files.exclude`",
+                "additionalItems": {
+                  "type": "string"
+                }
+              },
+              "exclude": {
+                "type": "array",
+                "description": "Patterns to enable in `files.exclude`",
                 "additionalItems": {
                   "type": "string"
                 }

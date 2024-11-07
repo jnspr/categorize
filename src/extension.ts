@@ -5,7 +5,8 @@ const iconCache = new Map<string, vscode.ThemeIcon>();
 /** Description of a category of exclusion patterns */
 export type Category = {
   label: string | null;
-  patterns: string[];
+  include: string[];
+  exclude: string[];
   detail: string | null;
   iconName: string | null;
 };
@@ -71,28 +72,30 @@ export function activate(context: vscode.ExtensionContext) {
     configuration: vscode.WorkspaceConfiguration,
     currentCategory: string | null
   ) => {
-    // Read the current configuration
+    // Read the current category's included and excluded patterns
     let categories = configuration.get<Record<string, Category>>(
       "categorize.categories"
     );
     if (typeof categories !== "object" || !categories) {
       categories = {};
     }
-
-    // Merge the always excluded and conditionally excluded patterns
     const category = currentCategory ? categories[currentCategory] : undefined;
-    const patterns = category ? category.patterns : [];
+    const include = category ? category.include : [];
+    const exclude = category ? category.exclude : [];
 
-    // Merge the unconditionally and conditionally excluded files into the VSCode `files.exclude` setting
-    const filesExclude = {
+    // Merge the unconditionally and conditionally included and excluded patterns into the VSCode `files.exclude` setting
+    const excludeSetting = {
       ...(configuration.get<Record<string, boolean>>(
         "categorize.excludeAlways"
       ) ?? {}),
-      ...Object.fromEntries(patterns.map((pattern) => [pattern, true])),
+      ...Object.fromEntries([
+        ...include.map((pattern) => [pattern, false]),
+        ...exclude.map((pattern) => [pattern, true]),
+      ]),
     };
     await configuration.update(
       "files.exclude",
-      filesExclude,
+      excludeSetting,
       vscode.ConfigurationTarget.Global
     );
   };
