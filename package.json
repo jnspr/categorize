@@ -16,10 +16,81 @@
   "contributes": {
     "commands": [
       {
-        "command": "categorize.helloWorld",
-        "title": "Hello World"
+        "command": "categorize.pickCategory",
+        "title": "Pick category",
+        "category": "Categorize"
+      },
+      {
+        "command": "categorize.forceRefresh",
+        "title": "Force refresh",
+        "category": "Categorize"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "categorize",
+      "properties": {
+        "categorize.currentCategory": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Currently active category",
+          "default": null
+        },
+        "categorize.excludeAlways": {
+          "type": "object",
+          "description": "Files that are excluded by default",
+          "default": {
+            "**/.git": true,
+            "**/.svn": true,
+            "**/.hg": true,
+            "**/CVS": true,
+            "**/.DS_Store": true,
+            "**/Thumbs.db": true
+          }
+        },
+        "categorize.categories": {
+          "type": "object",
+          "description": "Map of available categories",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "label": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "default": "My label",
+                "description": "Title of a category"
+              },
+              "patterns": {
+                "type": "array",
+                "description": "An array of `files.exclude` patterns to activate",
+                "additionalItems": {
+                  "type": "string"
+                }
+              },
+              "detail": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "default": null,
+                "description": "Subtext of a category"
+              },
+              "iconName": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "default": null,
+                "description": "Name of the icon of a category"
+              }
+            }
+          }
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "yarn run package",
@@ -34,9 +105,6 @@
     "@types/vscode": "^1.95.0",
     "@types/mocha": "^10.0.9",
     "@types/node": "20.x",
-    "@typescript-eslint/eslint-plugin": "^8.10.0",
-    "@typescript-eslint/parser": "^8.7.0",
-    "eslint": "^9.13.0",
     "esbuild": "^0.24.0",
     "npm-run-all": "^4.1.5",
     "typescript": "^5.6.3"
